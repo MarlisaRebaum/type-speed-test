@@ -1,4 +1,4 @@
-// Random Quotes API URL
+// Random Quotes API
 const quoteApiUrl = "https://api.quotable.io/random?minLength=300&maxLength=500";
 
 const quoteSection = document.getElementById("quote");
@@ -22,7 +22,7 @@ const renderNewQuote = async () => {
 
   // Array of characters in the quote
   let arr = quote.split("").map(value => {
-    // Wrap the cahracters in a span tag
+    // Wrap the characters in a span tag
     return "<span class='quote-chars'>" + value + "</span>";
   });
 
@@ -30,7 +30,7 @@ const renderNewQuote = async () => {
   quoteSection.innerHTML += arr.join("");
 };
 
-// Logic for comparing input words with quote
+// Logic for comparing user input with quote
 userInput.addEventListener("input", () => {
   let quoteChars = document.querySelectorAll(".quote-chars");
 
@@ -59,7 +59,7 @@ userInput.addEventListener("input", () => {
     else {
       // Check if we already have added fail class
       if(!char.classList.contains("fail")){
-        // Increment and dusplay mistakes
+        // Increment and display mistakes
         mistakes += 1;
         char.classList.add("fail");
       }
@@ -76,6 +76,25 @@ userInput.addEventListener("input", () => {
   });
 });
 
+// On load, new random quote is rendered and the start button is displayed
+window.onload = () => {
+  userInput.value = "";
+  document.getElementById("start-test").style.display = "block";
+  document.getElementById("stop-test").style.display = "none";
+  userInput.disabled = true;
+  renderNewQuote()
+};
+
+// Start Test
+const startTest = () => {
+  mistakes = 0;
+  timer = "";
+  userInput.disabled = false;
+  timeReduce();
+  document.getElementById("start-test").style.display = "none";
+  document.getElementById("stop-test").style.display = "block";
+};
+
 // Update timer on screen
 function updateTimer() {
   if(time == 0){
@@ -84,7 +103,7 @@ function updateTimer() {
   } else {
     document.getElementById("timer").innerText = --time + "s";
   }
-}
+};
 
 // Set timer
 const timeReduce = () => {
@@ -113,26 +132,8 @@ const displayResult = () => {
       userInput.value.length) * 100) + "%";
 };
 
-// Start Test
-const startTest = () => {
-  mistakes = 0;
-  timer = "";
-  userInput.disabled = false;
-  timeReduce();
-  document.getElementById("start-test").style.display = "none";
-  document.getElementById("stop-test").style.display = "block";
-}
-
 // Restart Test
 const startOver = () => {
   document.getElementById("stop-test").style.display = "none";
   window.location.reload();
-}
-
-window.onload = () => {
-  userInput.value = "";
-  document.getElementById("start-test").style.display = "block";
-  document.getElementById("stop-test").style.display = "none";
-  userInput.disabled = true;
-  renderNewQuote()
-}
+};
